@@ -76,12 +76,14 @@ def parse_message(data: dict[str, Any]) -> Message | None:
                                 )
                     return UserMessage(
                         content=user_content_blocks,
+                        data=data,
                         uuid=uuid,
                         parent_tool_use_id=parent_tool_use_id,
                         tool_use_result=tool_use_result,
                     )
                 return UserMessage(
                     content=data["message"]["content"],
+                    data=data,
                     uuid=uuid,
                     parent_tool_use_id=parent_tool_use_id,
                     tool_use_result=tool_use_result,
@@ -125,6 +127,7 @@ def parse_message(data: dict[str, Any]) -> Message | None:
                 return AssistantMessage(
                     content=content_blocks,
                     model=data["message"]["model"],
+                    data=data,
                     parent_tool_use_id=data.get("parent_tool_use_id"),
                     error=data.get("error"),
                 )
@@ -153,6 +156,7 @@ def parse_message(data: dict[str, Any]) -> Message | None:
                     is_error=data["is_error"],
                     num_turns=data["num_turns"],
                     session_id=data["session_id"],
+                    data=data,
                     total_cost_usd=data.get("total_cost_usd"),
                     usage=data.get("usage"),
                     result=data.get("result"),
@@ -169,6 +173,7 @@ def parse_message(data: dict[str, Any]) -> Message | None:
                     uuid=data["uuid"],
                     session_id=data["session_id"],
                     event=data["event"],
+                    data=data,
                     parent_tool_use_id=data.get("parent_tool_use_id"),
                 )
             except KeyError as e:
