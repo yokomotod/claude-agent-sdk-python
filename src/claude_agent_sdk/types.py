@@ -644,6 +644,7 @@ class UserMessage:
     """User message."""
 
     content: str | list[ContentBlock]
+    data: dict[str, Any] | None = None
     uuid: str | None = None
     parent_tool_use_id: str | None = None
     tool_use_result: dict[str, Any] | None = None
@@ -655,6 +656,7 @@ class AssistantMessage:
 
     content: list[ContentBlock]
     model: str
+    data: dict[str, Any] | None = None
     parent_tool_use_id: str | None = None
     error: AssistantMessageError | None = None
 
@@ -677,6 +679,7 @@ class ResultMessage:
     is_error: bool
     num_turns: int
     session_id: str
+    data: dict[str, Any] | None = None
     total_cost_usd: float | None = None
     usage: dict[str, Any] | None = None
     result: str | None = None
@@ -690,6 +693,7 @@ class StreamEvent:
     uuid: str
     session_id: str
     event: dict[str, Any]  # The raw Anthropic API stream event
+    data: dict[str, Any] | None = None
     parent_tool_use_id: str | None = None
 
 
