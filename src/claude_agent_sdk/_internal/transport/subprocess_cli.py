@@ -1,5 +1,6 @@
 """Subprocess transport implementation using Claude Code CLI."""
 
+import datetime
 import json
 import logging
 import os
@@ -25,6 +26,8 @@ from ...types import ClaudeAgentOptions
 from . import Transport
 
 logger = logging.getLogger(__name__)
+_raw_logger = logging.getLogger("claude_agent_sdk.raw_messages")
+_raw_logger.propagate = False
 
 _DEFAULT_MAX_BUFFER_SIZE = 1024 * 1024  # 1MB buffer limit
 MINIMUM_CLAUDE_CODE_VERSION = "2.0.0"
@@ -556,6 +559,10 @@ class SubprocessCLITransport(Transport):
                     try:
                         data = json.loads(json_buffer)
                         json_buffer = ""
+                        _raw_logger.debug(
+                            "%s",
+                            json.dumps({"ts": datetime.datetime.now(tz=datetime.UTC).isoformat(), "data": data}),
+                        )
                         yield data
                     except json.JSONDecodeError:
                         # We are speculatively decoding the buffer until we get
